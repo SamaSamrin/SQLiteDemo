@@ -23,13 +23,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             //creating tables
             db.execSQL("CREATE TABLE Users ( " +
                     "_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    "username TEXT NOT NULL," +
-                    "password TEXT," +
-                    "email TEXT," +
-                    "gender TEXT," +
+                    "username TEXT, " +
+                    "password TEXT, " +
+                    "email TEXT, " +
+                    "gender TEXT, " +
                     "height REAL, " +
-                    "initialWeight REAL," +
-                    "currentWeight REAL," +
+                    "initialWeight REAL, " +
+                    "currentWeight REAL, " +
                     "goalWeight REAL ) ; ");
             Log.e(TAG, "users table created");
 
