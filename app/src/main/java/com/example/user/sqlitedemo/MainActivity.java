@@ -28,10 +28,10 @@ public class MainActivity extends Activity {
         dataSource = new UsersDataSource(this);
         dataSource.open();
 
-        List<User> values = dataSource.getAllUsers();
+        //List<User> values = dataSource.getAllUsers();
         List<String> usernames = dataSource.getAllUsernames();
         //ArrayAdapter<User> adapter = new ArrayAdapter<User>(this, android.R.layout.simple_list_item_1, values);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, usernames);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, usernames);
         userslist.setAdapter(adapter);
     }
 

@@ -29,6 +29,7 @@ class UsersDataSource {
     private String[] allColumns = {"_id", "username", "password", "email", "gender", "height", "initialWeight",
     "goalweight", "currentWeight"};
 
+    //constructor
      UsersDataSource(Context context) {
         helper = new DatabaseHelper(context);
     }
@@ -54,7 +55,7 @@ class UsersDataSource {
          if(id != -1) {
              cursor = database.query("Users", allColumns, "_id  = " + id, null, null, null, null);
              cursor.moveToFirst();
-             user = cursorToUser(cursor);//ERROR//
+             user = cursorToUser(cursor);//ERROR//SOLVED
              cursor.close();
          }else{
              Log.e(TAG, "id returned -1");
@@ -79,7 +80,7 @@ class UsersDataSource {
              Log.e(TAG, "user's id = "+String.valueOf(id));
              database.delete("Users", "_id =" + id, null);//delete the given id (matching with the "_id" column) from the Users table
          }else{
-             Log.e(TAG, "user argument is null");
+             Log.e(TAG, "user argument is null")    ;
          }
      }
 
@@ -93,7 +94,6 @@ class UsersDataSource {
             users.add(user);
             cursor.moveToNext();
         }
-        // make sure to close the cursor
         cursor.close();
         return users;
     }
@@ -101,7 +101,6 @@ class UsersDataSource {
     List<String> getAllUsernames(){
         List<String> usernames = new ArrayList<String>();
         Cursor cursor = database.query("Users", allColumns, null, null, null, null, null);
-
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
             User user = cursorToUser(cursor);
@@ -109,7 +108,6 @@ class UsersDataSource {
             usernames.add(username);
             cursor.moveToNext();
         }
-        // make sure to close the cursor
         cursor.close();
         return usernames;
     }
@@ -123,14 +121,13 @@ class UsersDataSource {
             user = cursorToUser(cursor);
             cursor.moveToNext();
         }
-        // make sure to close the cursor
         cursor.close();
         return  user;
     }
 
     private User cursorToUser(Cursor cursor){
         User user = new User();
-        user.id = cursor.getLong(0);//ERROR//-RESOLVED
+        user.id = cursor.getLong(0);//ERROR//GONE but dont know why
         user.username = cursor.getString(1);
         return user;
     }
