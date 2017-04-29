@@ -29,7 +29,9 @@ public class MainActivity extends Activity {
         dataSource.open();
 
         List<User> values = dataSource.getAllUsers();
-        ArrayAdapter<User> adapter = new ArrayAdapter<User>(this, android.R.layout.simple_list_item_1, values);
+        List<String> usernames = dataSource.getAllUsernames();
+        //ArrayAdapter<User> adapter = new ArrayAdapter<User>(this, android.R.layout.simple_list_item_1, values);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, usernames);
         userslist.setAdapter(adapter);
     }
 
@@ -47,7 +49,7 @@ public class MainActivity extends Activity {
             case R.id.addButton:
                 String[] users = new String[] {"Sama", "Sharna", "Fariha", "Mahir", "Apon", "Rumman"};
                 int nextInt = new Random().nextInt(5);
-                user = dataSource.createUser(users[nextInt]);//ERROR////ERROR//
+                user = dataSource.createUser(users[nextInt]);//ERROR////ERROR// --RESOLVED--
                 /*sharna = dataSource.createUser("sharna@hotmail.com", "456");
                 fariha = dataSource.createUser("fariha@yahoo.com", "789");
                 mahir = dataSource.createUser("mahir@yahoo.com", "abcd");
@@ -68,11 +70,19 @@ public class MainActivity extends Activity {
                 if(userslist.getAdapter().getCount() > 0){
                     int n = userslist.getAdapter().getCount();
                     Log.e(TAG, "adapter's get Count returned = "+String.valueOf(n) );
-                    String username = (String) userslist.getAdapter().getItem(id);
-                    Log.e(TAG, username);
+                    //User tempUser = (User) userslist.getAdapter().getItem(id);//ERROR
+                    String name = (String) userslist.getAdapter().getItem(id);
+                    //String username = tempUser.username;
+                    Log.e(TAG, name);
+                    //name-er shathe match kore user object-ta nite hobe
+                    user = dataSource.getUser(name);
                     id  = new Random().nextInt(n);
-                    dataSource.deleteUser(user);
-                    adapter.remove(user.username);
+                    if(user!=null) {
+                        dataSource.deleteUser(user);
+                        adapter.remove(user.username);
+                    } else {
+                        Log.e(TAG, "getUser returned null");
+                    }
                 }
                 break;
         }

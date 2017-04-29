@@ -72,6 +72,17 @@ class UsersDataSource {
         }
      }
 
+     void deleteUser(String username){
+         if (!username.equals("")) {
+             User user = getUser(username);
+             long id = user.getId();
+             Log.e(TAG, "user's id = "+String.valueOf(id));
+             database.delete("Users", "_id =" + id, null);//delete the given id (matching with the "_id" column) from the Users table
+         }else{
+             Log.e(TAG, "user argument is null");
+         }
+     }
+
      List<User> getAllUsers(){
         List<User> users = new ArrayList<User>();
         Cursor cursor = database.query("Users", allColumns, null, null, null, null, null);
@@ -86,9 +97,40 @@ class UsersDataSource {
         cursor.close();
         return users;
     }
+
+    List<String> getAllUsernames(){
+        List<String> usernames = new ArrayList<String>();
+        Cursor cursor = database.query("Users", allColumns, null, null, null, null, null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            User user = cursorToUser(cursor);
+            String username = user.username;
+            usernames.add(username);
+            cursor.moveToNext();
+        }
+        // make sure to close the cursor
+        cursor.close();
+        return usernames;
+    }
+
+
+    User getUser(String username){
+        Cursor cursor = database.query("Users", allColumns,"username = ?", new String[] {username}, null, null, null );
+        cursor.moveToFirst();
+        User user = null;
+        while (!cursor.isAfterLast()) {
+            user = cursorToUser(cursor);
+            cursor.moveToNext();
+        }
+        // make sure to close the cursor
+        cursor.close();
+        return  user;
+    }
+
     private User cursorToUser(Cursor cursor){
         User user = new User();
-        user.id = cursor.getLong(0);//ERROR//
+        user.id = cursor.getLong(0);//ERROR//-RESOLVED
         user.username = cursor.getString(1);
         return user;
     }
