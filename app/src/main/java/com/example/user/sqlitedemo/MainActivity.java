@@ -71,7 +71,9 @@ public class MainActivity extends Activity {
                     int n = userslist.getAdapter().getCount();
                     Log.e(TAG, "adapter's get Count returned = "+String.valueOf(n) );
                     //User tempUser = (User) userslist.getAdapter().getItem(id);//ERROR
-                    String name = (String) userslist.getAdapter().getItem(id);
+                    if(id>=n)
+                        id = 0;
+                    String name = (String) userslist.getAdapter().getItem(id);//IndexOutOfBoundsException: Invalid index 5, size is 5 - RESOLVED BY THE ABOVE IF CONDITION
                     //String username = tempUser.username;
                     Log.e(TAG, name);
                     //name-er shathe match kore user object-ta nite hobe
